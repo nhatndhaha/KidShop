@@ -1,0 +1,33 @@
+﻿@model List<KidShop.Areas.Admin.Models.DataModel.Category>
+<div class="sk-leftSidebar-widget category-menu-widget">
+    <div class="sk-widget-title green-bg-widget">
+        <h5>Danh mục</h5>
+    </div>
+    <div class="category-menu-wrap block-content">
+        <ul class="category-menu-inner block-list">
+
+            <li>
+                @Html.ActionLink("Tất cả sản phẩm", "Index", "Product")
+            </li>
+
+            @foreach (var item in Model)
+            {
+                if (item.CategoryId == ViewBag.Category)
+                {
+                    <li style="color: #79bd9a;">
+                        <b>@item.CategoryName</b>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink(item.CategoryName, "Index", "Product", new { id = item.CategoryId }, null)
+                    </li>
+                }
+            }
+            <li>
+                @Html.ActionLink("Khuyến mại", "Index", "Product", new { id = 0 }, null)
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model List<KidShop.Areas.Admin.Models.DataModel.Product>
+@using KidShop.Areas.Admin.Models.DataModel
+@using System.Globalization
+
+<div class="sk-leftSidebar-widget sellingProducts-widget">
+    <div class="sk-widget-title pink-bg-widget">
+        <h5>Khuyến mại hót</h5>
+        <div class="customNavigation">
+            <a class="btn prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            <a class="btn next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <div class="slider-items-products">
+        <div id="sellingProducts-slider" class="owl-carousel owl-theme">
+          <div class="item">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (i % 4 == 0 && i > 0)
+                    {
+                          @:</div><div class="item">
+                    }
+                    ProductDetail productDetail = Model[i].ProductDetails.OrderByDescending(r => r.Qty).FirstOrDefault();
+
+                            <div class="sellingProducts-item">
+                                <div class="col-md-5 col-sm-5 sellingProducts-image-wrap">
+                                    <a class="sellingProducts-image" href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })">
+                                        <img src="~/Areas/Admin/Content/Images/ProductImages/@Model[i].Image" alt="@Model[i].ProductName" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="col-md-7 col-sm-7">
+                                    <div class="item-info">
+                                        <h3 class="item-title">
+                                            <a href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })" title="@Model[i].ProductName">@Model[i].ProductName</a>
+                                        </h3>
+                                        <div class="price-box">
+                                            @{
+                                                decimal price = productDetail.Price;
+                                                price = price - (price * Model[i].Sale / 100);
+                                            }
+                                            <span class="price">@price.ToString("C0", CultureInfo.CurrentCulture)</span>
+
+                                            <span class="price-compare">
+                                                @productDetail.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                }
+                        </div>
+                    
+                </div>
+            </div>
+    </div>
+

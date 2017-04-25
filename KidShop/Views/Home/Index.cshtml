@@ -1,0 +1,32 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "Trang chủ";
+}
+
+@Html.Action("PartialSlider", "Home")
+
+<div class="sk-homepage-layout-leftSidebar">
+    <div class="container">
+        <div class="row">
+            <aside class="col-lg-3 col-md-3 hidden-sm hidden-xs" style="margin-top: 40px">
+                @Html.Action("PartialSale", "Home")
+                <div class="sk-leftSidebar-widget hotline-widget">
+                    <div class="hotline-widget-inner text-center">
+                        <span>
+                            Hotline
+                        </span>
+                        <a href="tel:@ConfigurationManager.AppSettings["hotline"]">
+                            @ConfigurationManager.AppSettings["hotline"]
+                        </a>
+                    </div>
+                </div>
+            </aside>
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                @Html.Action("PartialHotProduct", "Home")
+                @Html.Action("PartialNewProduct", "Home")
+            </div>
+        </div>
+    </div>
+    @Html.Action("PartialTopOrder", "Home")
+    @Html.Action("PartialHotNews", "Home")
+</div>

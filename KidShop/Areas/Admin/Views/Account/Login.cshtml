@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+@model KidShop.Areas.Admin.Models.ViewModel.LoginViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Đăng nhập | </title>
+
+    <!-- Bootstrap -->
+    @*<link href="~/Areas/Admin/Content/Vendors/bootstrap/bootstrap.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    @*<link href="~/Areas/Admin/Content/Vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <!-- NProgress -->
+    <link href="~/Areas/Admin/Content/Vendors/nprogress/nprogress.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/Areas/Admin/Content/Vendors/admin-template/custom.min.css" rel="stylesheet" />
+</head>
+
+<body class="login">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+
+        <div class="login_wrapper">
+            <div class="animate form">
+                <section class="login_content">
+                    <form action="" , method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <h1>Đăng nhập</h1>
+                        <p class="text-danger">@ViewBag.Error</p>
+                        <p class="text-success">@TempData["RegisterSuccess"]</p>
+                        <div>
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên tài khoản", required = "required" } })
+                        </div>
+                        <div>
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Mật khẩu", type = "password", required = "required" } })
+                        </div>
+                        <div>
+                            <button class="btn btn-default submit" type="submit">Đăng nhập</button>
+                            <a class="reset_pass" href="#">Quên mật khẩu?</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">
+                                Bạn chưa có tài khoản?
+                                @Html.ActionLink("Đăng ký", "Register", "Account")
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br />
+
+                            <div>
+                                <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+                                <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

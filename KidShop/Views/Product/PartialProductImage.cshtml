@@ -1,0 +1,22 @@
+﻿@model ICollection<KidShop.Areas.Admin.Models.DataModel.ProductImage>
+<div class="sk-product-slider-wrap">
+    <div class="product-img-box">
+        <div id="sync1" class="owl-carousel css_detail_owl">
+                @foreach (var item in Model)
+                {
+                    <div class="item large-image">
+                        <img src="~/Areas/Admin/Content/Images/ProductImages/@item.ImageName" alt="Váy liên thân KIDS">
+                    </div>
+                }
+            </div>
+            <div id="sync2" class="owl-carousel">
+                @foreach (var item in Model)
+                {
+                    <div class="item">
+                        <img src="~/Areas/Admin/Content/Images/ProductImages/@item.ImageName" alt="Váy liên thân KIDS">
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>

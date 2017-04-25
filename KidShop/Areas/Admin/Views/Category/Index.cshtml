@@ -1,0 +1,110 @@
+﻿@model IEnumerable<KidShop.Areas.Admin.Models.DataModel.Category>
+@using KidShop.Areas.Admin.Models.BusinessModel
+@{
+    KidShopDbContext db = new KidShopDbContext();
+}
+
+<p>
+    <a href="/Admin/Category/Create" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Thêm nhóm hàng</a>
+</p>
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Danh sách nhóm hàng</h2>
+        <ul class="nav navbar-right panel_toolbox">
+            <li>
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li>
+                <a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="x_content">
+
+        <div class="table-responsive">
+            <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                    <tr class="headings">
+                        <th>
+                            <input type="checkbox" id="check-all" class="flat">
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ParentId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th class="column-title no-link last">
+                            <span class="nobr">Hành động</span>
+                        </th>
+                        <th class="bulk-actions" colspan="7">
+                            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="odd pointer" id="category_@item.CategoryId">
+                            <td class="a-center ">
+                                <input type="checkbox" class="flat" name="table_records">
+                            </td>
+                            <td class=" ">@item.CategoryName</td>
+                            <td class=" ">@item.Description</td>
+                            <td class=" ">@item.Order</td>
+                            @{
+                                var getParent = db.Category.FirstOrDefault(x => x.CategoryId == item.ParentId);
+                            }
+                            @if (getParent == null) { <td class=" ">Không có</td> } else { <td class=" ">@getParent.CategoryName</td> }
+                            <td class=" ">@item.CreateDate</td>
+                            <td class=" ">@Html.CheckBox("cbx", item.Status, new { @class = "flat", disabled = "" })</td>
+                            <td class=" last">
+                                <a class="btn btn-primary btn-xs" href="/Admin/Category/Edit/@item.CategoryId"><i class="fa fa-edit"></i> Sửa</a>
+                                <a class="btn btn-danger btn-xs" onclick="DeleteConfirm(@item.CategoryId)"><i class="fa fa-trash"></i> Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteConfirm(id) {
+        $.confirm({
+            title: 'Xác nhận xóa!',
+            content: 'Bạn có chắc chắn muốn xóa?',
+            buttons: {
+                OK: {
+                    text: 'Xóa',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        $.ajax({ url: "/Category/Delete/" + id, method: "POST", success: $("#category_" + id).remove() });
+                    }
+                },
+                cancel: {
+                    text: 'Hủy',
+                    keys: ['esc']
+                }
+            }
+        });
+    }
+</script>

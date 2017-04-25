@@ -1,0 +1,18 @@
+﻿@model int
+
+@{
+    ViewBag.Title = "Checkout Complete";
+}
+<div class="category-page-layout">
+    <div class="container">
+        <div class="row">
+            <h2>Đặt hàng thành công</h2>
+
+            <p>Cảm ơn bạn đã đặt hàng, chúng tôi sẽ sớm liên hệ với bạn! Mã đơn hàng của bạn là: @Model</p>
+
+            <p>
+                @Html.ActionLink("Trang chủ", "Index", "Home")
+            </p>
+        </div>
+    </div>
+</div>

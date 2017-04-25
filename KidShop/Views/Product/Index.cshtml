@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<KidShop.Areas.Admin.Models.DataModel.Product>
+@using PagedList.Mvc;
+@using System.Configuration;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = ViewBag.Category.CategoryName;
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#sort").change(function () {
+            var sortString = $("#sort").val();
+            window.location.href = '@Url.Action("Index", "Product", new { id = ViewBag.Category.CategoryId})' + '?sortOrder=' + sortString + '&searchString=@ViewBag.searchString';
+        });
+    });
+</script>
+
+<div class="category-page-layout">
+    <div class="container">
+        <div class="row">
+            <aside class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                @Html.Action("PartialCategory", "Product", new { id = ViewBag.Category.CategoryId })
+            </aside>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="sk-main-content-head">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 breadcrumb-wrap">
+                            @Html.Action("PartialProductUrl", "Product", new { id = ViewBag.Category.CategoryId })
+                        </div>
+                        <div class="col-md-6 col-sm-6 head-hotline-wrap">
+                            <div class="head-hotline-inner">
+                                <span>Hotline:</span><a href="tel:@ConfigurationManager.AppSettings["hotline"]">@ConfigurationManager.AppSettings["hotline"]</a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="sk-page-title">
+                    <h1>@ViewBag.Category.CategoryName</h1>
+                </div>
+                <div class="product-nav-wrap">
+                    <div class="col-md-6 col-sm-6 sort-wrap no-padding-left">
+                    </div>
+                    <div class="col-md-6 col-sm-6 filter-wrap no-padding-right">
+                        <div class="filter-inner">
+                            <div id="sort-by">
+                                <form id="formSortBy" class="form-inline form-viewpro">
+                                    <div class="form-group">
+                                        <select class="sort-by-script" id="sort">
+                                            <option value="default")>Mặc định</option>
+                                            <option value="price" @(ViewBag.sortOrder == "price" ? "selected": "")>Giá tăng dần</option>
+                                            <option value="price-desc" @(ViewBag.sortOrder == "price-desc" ? "selected": "")>Giá giảm dần</option>
+                                            <option value="name" @(ViewBag.sortOrder == "name" ? "selected": "")>Từ A-Z</option>
+                                            <option value="name-desc" @(ViewBag.sortOrder == "name-desc" ? "selected": "")>Từ Z-A</option>
+                                            <option value="date" @(ViewBag.sortOrder == "date" ? "selected": "")>Cũ đến mới</option>
+                                            <option value="date-desc" @(ViewBag.sortOrder == "price-desc" ? "selected": "")>Mới đến cũ</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="product-list">
+                    <div class="sk-product-list">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    @Html.Partial("PartialProduct", item)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="sk-category-paging-wrap">
+                        <div class="pull-right">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { searchString = ViewBag.searchString, sortOrder = ViewBag.sortOrder, page }))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+

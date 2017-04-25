@@ -1,0 +1,14 @@
+﻿@model List<KidShop.Areas.Admin.Models.DataModel.Category>
+<div class="sk-main-content-head">
+    <div class="breadcrumb-wrap">
+        <ul>
+            <li>@Html.ActionLink("Sản phẩm", "Index", "Product")</li>
+            @for (int i = Model.Count() - 1; i >= 0; i--)
+            {
+                <li>&nbsp;<span>/</span>&nbsp;@Html.ActionLink(Model[i].CategoryName, "Index", "Product", new { id = Model[i].CategoryId }, null)</li>
+            }
+            <li class="active">&nbsp;<span>/</span>&nbsp;@ViewBag.tt</li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+</div>

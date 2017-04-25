@@ -1,0 +1,190 @@
+﻿
+@{ 
+    if (Session["Email"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+    Layout = null;
+}
+@model KidShop.Areas.Admin.Models.DataModel.Order
+@using System.Globalization;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kidshop - Thanh toán đơn hàng</title>
+
+    <link href='//bizweb.dktcdn.net/assets/themes_support/bootstrap.min.css?20160122' rel='stylesheet' type='text/css' />
+    <link href='//bizweb.dktcdn.net/assets/themes_support/nprogress.css?4' rel='stylesheet' type='text/css' />
+    <link href='//bizweb.dktcdn.net/assets/themes_support/font-awesome.min.css?4' rel='stylesheet' type='text/css' />
+    <link href='//bizweb.dktcdn.net/assets/themes_support/checkout.css?4' rel='stylesheet' type='text/css' />
+    <link href='//bizweb.dktcdn.net/100/117/632/checkout_stylesheet/157694/checkout.css?1480685335175' rel='stylesheet' type='text/css' />
+</head>
+<body class="body--custom-background-color ">
+    @using (Html.BeginForm())
+    {
+        <div class="container checkout">
+            <div class="header">
+                <div class="wrap">
+                    <div class="shop logo  logo--left ">
+                        <h1 class="shop__name">
+                            @Html.ActionLink("Kidshop", "Index", "Home")
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main">
+                <div class="wrap clearfix">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 order-info">
+                            <div class="order-summary order-summary--custom-background-color ">
+                                <div class="order-summary-header summary-header--thin summary-header--border">
+                                    <h2>
+                                        <label class="control-label">Đơn hàng</label>
+                                        <label class="control-label">(@ViewBag.Cart.CartCount)</label>
+                                    </h2>
+                                </div>
+                                <div class="order-items">
+                                    <div class="summary-body summary-section summary-product">
+                                        <div class="summary-product-list">
+                                            <ul class="product-list">
+                                                @{ decimal total = 0;}
+                                                @foreach (var item in ViewBag.Cart.CartItems)
+                                                {
+                                                    decimal price = (item.ProductDetail.Price - (item.ProductDetail.Product.Sale * item.ProductDetail.Price /100)) * item.Count;
+                                                    total += price;
+
+                                                    <li class="product product-has-image clearfix">
+                                                        <div class="product-thumbnail pull-left">
+                                                            <div class="product-thumbnail__wrapper">
+                                                                <img src='~/Areas/Admin/Content/Images/ProductImages/@item.ProductDetail.Product.Image' alt='@item.ProductDetail.Product.ProductName - @item.ProductDetail.Size / @item.ProductDetail.Color' class='product-thumbnail__image' />
+                                                            </div>
+                                                            <span class="product-thumbnail__quantity" aria-hidden="true">@item.Count</span>
+                                                        </div>
+                                                        <div class="product-info pull-left">
+                                                            <span class="product-info-name">
+                                                                <strong>@item.ProductDetail.Product.ProductName - @item.ProductDetail.Size / @item.ProductDetail.Color</strong>
+                                                            </span>
+                                                            <span class="product-info-description">
+                                                            </span>
+                                                        </div>
+                                                        <strong class="product-price pull-right">
+                                                            @price.ToString("C0", CultureInfo.CurrentCulture)
+                                                        </strong>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="summary-section border-top-none--mobile">
+                                    <div class="total-line total-line-subtotal clearfix">
+                                        <span class="total-line-name pull-left">
+                                            Tạm tính
+                                        </span>
+                                        <span class="total-line-subprice pull-right">
+                                            @total.ToString("C0", CultureInfo.CurrentCulture)
+                                        </span>
+                                    </div>
+                                    <div class="total-line total-line-shipping clearfix">
+                                        <span class="total-line-name pull-left">
+                                            Phí vận chuyển
+                                        </span>
+                                        <span class="total-line-shipping pull-right">
+                                            Miễn phí vận chuyển
+                                        </span>
+                                    </div>
+                                    <div class="total-line total-line-total clearfix">
+                                        <span class="total-line-name pull-left">
+                                            Tổng cộng
+                                        </span>
+                                        <span class="total-line-price pull-right">
+                                            @total.ToString("C0", CultureInfo.CurrentCulture)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix hidden-sm hidden-xs">
+                                <input class="btn btn-primary col-md-12 mt10 " type="submit" value="ĐẶT HÀNG" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-sm-12 customer-info">
+                            <div class="form-group m0">
+                                <h2>
+                                    <label class="control-label">Thông tin mua hàng</label>
+                                </h2>
+                            </div>
+                            <div class="billing">
+                                <div>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group hidden">
+                                        @Html.LabelFor(model => model.SaveInfo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.SaveInfo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.SaveInfo, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "help-block with-errors" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hidden-md col-sm-12">
+                            <div class="form-group clearfix hidden-md hidden-lg">
+                                <input class="btn btn-primary col-md-12 mt10 btn-checkout" type="submit" value="ĐẶT HÀNG" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="mt10"></div>
+            </div>
+        </div>
+    }
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿@model ICollection<KidShop.Areas.Admin.Models.DataModel.Product>
+@using KidShop.Areas.Admin.Models.DataModel
+
+<div class="sk-product-care-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="product-care-title">
+                <h2>
+                    Sản phẩm bán chạy nhất
+                </h2>
+            </div>
+        </div>
+        <div class="product-care-wrap">
+            <div class="productCareNavigation">
+                <a class="btn prev">
+                    <img src="~/Images/left-control.png" alt="left-control" class="img-responsive" />
+                </a>
+                <a class="btn next">
+                    <img src="~/Images/right-control.png" alt="right-control" class="img-responsive" />
+                </a>
+            </div>
+            <div id="product-care" class="owl-carousel owl-theme">
+                @foreach (var item in Model)
+                {
+                    @Html.Partial("~/Views/Product/PartialProduct.cshtml", item)
+                }
+            </div>
+        </div>
+    </div>
+</div>

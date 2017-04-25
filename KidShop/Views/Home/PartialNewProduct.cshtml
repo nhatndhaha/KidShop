@@ -1,0 +1,54 @@
+﻿@model List<KidShop.Areas.Admin.Models.DataModel.Category>
+@using KidShop.Areas.Admin.Models.DataModel
+<section class="sk-home-main-block sk-tab-product">
+    <div class="main-block-title pink-title">
+        <h2>
+            Hàng mới về !
+        </h2>
+        <ul class="nav-pills sk-tab-nav">
+            @for (int i = 1; i <= Model.Count(); i++)
+            {
+                if (i == 1)
+                {
+                    <li class="active"><a href="#1" data-toggle="tab">@Model[0].CategoryName</a></li>
+                }
+                else
+                {
+                    <li><i class="fa fa-pagelines" aria-hidden="true"></i></li>
+                    <li><a href="#@i" data-toggle="tab">@Model[i-1].CategoryName</a></li>
+                }
+            }
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <div id="exTab3" class="sk-tab-product sk-block-with-border-triangle">
+        <div class="tab-content clearfix">
+            @for (int i = 1; i <= ViewBag.listProduct.Count; i++)
+            {
+                if (i == 1)
+                {
+                    <div class="tab-pane active" id="1">
+                        @foreach (Product item in ViewBag.listProduct[0])
+                        {
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                @Html.Partial("~/Views/Product/PartialProduct.cshtml", item)
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="tab-pane" id="@i">
+                        @foreach (Product item in ViewBag.listProduct[i-1])
+                        {
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                @Html.Partial("~/Views/Product/PartialProduct.cshtml", item)
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!-- Dropzone.js -->
+<link href="~/Areas/Admin/Content/Vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+
+<h2>Trang Index - Bản nháp</h2>
+
+<button id="submit-all">Submit all files</button>
+<form action="/target" class="dropzone" id="my-dropzone"></form>
+
+<!-- Dropzone.js -->
+<script src="~/Areas/Admin/Content/Vendors/dropzone/dist/min/dropzone.min.js"></script>
+
+<script>
+    Dropzone.options.dropzoneForm = {
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        init: function () {
+            var submitButton = document.querySelector("#submit-all")
+            myDropzone = this;
+            submitButton.addEventListener("click", function () {
+                myDropzone.processQueue();
+            });
+        }
+    }
+</script>
+

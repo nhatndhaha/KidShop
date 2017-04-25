@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewBag.Title - KidShop</title>
+
+   <!--CSS-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/OwlCarousel/owl.carousel.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/OwlCarousel/owl.theme.css" rel="stylesheet" type="text/css" />
+   
+    <link href='~/Content/SingleProduct.css' rel='stylesheet' type='text/css' />
+    <!--JS-->
+    <script src="~/Scripts/modernizr-2.6.2.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="https://use.fontawesome.com/4f4fc65fa1.js"></script>
+    <script src="~/Scripts/owl.carousel.js" type="text/javascript"></script>
+    <script src="~/Scripts/home.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+    <header class="header">
+        <div class="navbar navbar-default sk-top-menu" role="navigation">
+            <div class="container">
+                <div class="row">
+                    @Html.Partial("_PartialLogin")
+                    <ul class="nav navbar-nav navbar-right sk-top-nav-desktop" style="position: relative;z-index: 9;">
+                        <li>
+                            <form action="/Product" method="get" class="form-inline sk-search-in-nav">
+                                <div class="form-group">
+                                    <input type="text" class="form-control sk-search-field" placeholder="Tìm kiếm" value="" name="searchString">
+                                </div>
+                                <button type="submit" class="sk-search-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </li>
+                        <li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-logo-wrap text-center">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/Images/logo.png" alt="Kidshop">
+            </a>
+        </div>
+        <nav class="navbar navbar-default sk-main-menu" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <ul class="sk-top-nav-mobile" style="position: relative;z-index: 9;">
+                        <li>
+                            <form action="/Product" method="get" class="form-inline sk-search-in-nav">
+                                <div class="form-group sk-search-input">
+                                    <input id="sk-input" type="text" class="form-control sk-search-field" placeholder="Tìm kiếm" value="" name="searchString">
+                                </div>
+                                <button id="sk-button" type="button" class="sk-search-btn"><i class="fa fa-search"></i></button>
+                            </form>
+                        </li>
+                        <li>@{Html.RenderAction("CartSummary", "ShoppingCart");}</li>
+                    </ul>
+                </div>
+                <a class="navbar-brand sk-logo-desktop" href="@Url.Action("Index", "Home")">
+                    <img src="~/Images/logo.png" alt="Kidshop">
+                </a>
+                <div class="collapse navbar-collapse sk-main-menu-inner">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Giới thiệu", "About", "Home")</li>
+                        <li>@Html.ActionLink("Dịch vụ", "Action", "Controller")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @Html.Action("PartialMenu", "Home")
+                        <li>@Html.ActionLink("Tin tức", "Action", "Controller")</li>
+                        <li>@Html.ActionLink("Liên hệ", "Action", "Controller")</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+    <div class="sk-qickLink-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 sk-qickLink-item">
+                    <h5 class="sk-qickLink-title">Liên hệ với chúng tôi</h5>
+                    <ul class="sk-qickLink-list">
+                        <li>Số 20 Hồ Tùng Mậu, P. Mai Dịch, Q. Cầu Giấy, Hà Nội</li>
+                        <li>(04) 6674 2332  - (04) 6674 2332</li>
+                        <li>Trực 8h00 - 20h00 từ thứ 2 đến thứ 6</li>
+                    </ul>
+                    <h5 class="sk-qickLink-title">Kết nối tới chúng tôi</h5>
+                    <ul class="sk-qickLink-social">
+                        <li><a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus-square" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-2 sk-qickLink-item">
+                    <h5 class="sk-qickLink-title">Thông tin</h5>
+                    <ul class="sk-qickLink-list">
+                        <li><a href="/">Tài khoản của bạn</a></li>
+                        <li><a href="/">Lịch sử mua hàng</a></li>
+                        <li><a href="/">Chính sách  mua bán</a></li>
+                        <li><a href="/">Hướng dẫn mua online</a></li>
+                        <li><a href="/">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-2 sk-qickLink-item">
+                    <h5 class="sk-qickLink-title">Thông tin</h5>
+                    <ul class="sk-qickLink-list">
+                        <li><a href="/">Tài khoản của bạn</a></li>
+                        <li><a href="/">Lịch sử mua hàng</a></li>
+                        <li><a href="/">Chính sách  mua bán</a></li>
+                        <li><a href="/">Hướng dẫn mua online</a></li>
+                        <li><a href="/">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-2 sk-qickLink-item">
+                    <h5 class="sk-qickLink-title">Thông tin</h5>
+                    <ul class="sk-qickLink-list">
+                        <li><a href="/">Tài khoản của bạn</a></li>
+                        <li><a href="/">Lịch sử mua hàng</a></li>
+                        <li><a href="/">Chính sách  mua bán</a></li>
+                        <li><a href="/">Hướng dẫn mua online</a></li>
+                        <li><a href="/">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-2 sk-qickLink-item">
+                    <h5 class="sk-qickLink-title">Thông tin</h5>
+                    <ul class="sk-qickLink-list">
+                        <li><a href="/">Tài khoản của bạn</a></li>
+                        <li><a href="/">Lịch sử mua hàng</a></li>
+                        <li><a href="/">Chính sách  mua bán</a></li>
+                        <li><a href="/">Hướng dẫn mua online</a></li>
+                        <li><a href="/">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container text-center">
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </div>
+    </footer>
+
+
+
+</body>
+</html>

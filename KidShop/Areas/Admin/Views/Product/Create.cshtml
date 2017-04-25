@@ -1,0 +1,256 @@
+﻿@model KidShop.Areas.Admin.Models.DataModel.Product
+<<<<<<< HEAD
+
+
+=======
+@{
+    var model2 = new KidShop.Areas.Admin.Models.DataModel.ProductDetail();
+    model2.Price = 25;
+    model2.ProductId = 1;
+    model2.Size = "XL";
+}
+>>>>>>> origin/master
+<p>
+    @Html.ActionLink("Danh sách sản phẩm", "Index", "Product", new { }, new { @class = "btn btn-primary  btn-sm" })
+</p>
+
+<!-- Dropzone -->
+<link href="~/Areas/Admin/Content/Vendors/dropzone/dropzone.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Thêm sản phẩm</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <br />
+                    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CategoryId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.DropDownListFor(model => model.CategoryId, null, "Vui lòng chọn nhóm hàng", new { @class = "form-control col-md-7 col-xs12", required="" })
+                                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductName, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs12", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs12", required = "", type = "number" } })
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Qty, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs12", required = "", type = "number" } })
+                                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                            @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="image view view-first" id="div_avatar" style="height: 60px; border: 1px solid #ccc">
+                                    <img style="width: 100%; display: block; margin: auto" id="avatar" />
+                                    <span style="line-height: 60px;" id="spanImg">Click để chọn file</span>
+                                </div>
+                                <div class="hidden">@Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12 file", type = "file", onchange = "readURL(this);" }, style = "display:none;" })</div>
+                                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                        <div class="form-group">
+                            @Html.Label("Ảnh sản phẩm", new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="dropzoneForm" class="dropzone dz-clickable col-md-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control col-md-7 col-xs-12", @id = "description" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Thuộc tính sản phẩm", new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
+                                    <input type="text" class="form-control col-md-5 col-xs-12 tags" id="tags_color" name="tags_color" />
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12" style="margin: 0px; padding: 0px;">
+                                    <input type="text" class="form-control col-md-5 col-xs-12 tags" id="tags_size" name="tags_size" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-12" id="product-detail">
+
+                            </div>                            
+                            @Html.ValidationMessageFor(model => model.ProductDetails.Count, "", new { @class = "text-danger col-md-offset-3 col-md-6 col-sm-6 col-xs-12" })
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-12">
+                                @Html.CheckBoxFor(model => model.Status, new { @class = "flat col-md-7 col-xs-12", @checked = "" })
+                                @Html.Label(" Ẩn/Hiện sản phẩm", new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                                <button type="reset" class="btn btn-success">Nhập lại</button>
+                                <button type="submit" class="btn btn-primary" id="submit-all">Thêm sản phẩm</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Dropzone.js -->
+<script src="~/Areas/Admin/Content/Vendors/dropzone/dropzone.min.js"></script>
+<!-- Jquery Tags Input -->
+<script src="~/Areas/Admin/Content/Vendors/jquery-tagsinput/jquery.tagsinput.js"></script>
+
+<!-- Include CKEditor -->
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace('description');
+    });
+</script>
+
+<!-- jQuery Tags Input -->
+<script>
+    $(document).ready(function () {
+        $('#tags_size').tagsInput({
+            width: 'auto',
+            height: 80,
+            minInputWidth: 250,
+            defaultText: 'Nhập và Enter để thêm size',
+            onAddTag: function (e) {
+                tagsChange();
+            },
+            onRemoveTag: function (e) {
+                tagsChange();
+            }
+        });
+        $('#tags_color').tagsInput({
+            width: 'auto',
+            height: 80,
+            minInputWidth: 250,
+            defaultText: 'Nhập và Enter để thêm màu',
+            onAddTag: function (e) {
+                tagsChange();
+            },
+            onRemoveTag: function (e) {
+                tagsChange();
+            }
+        });
+        function tagsChange() {
+            var color = $("#tags_color").val();
+            var size = $("#tags_size").val();
+            var price = $('#Price').val();
+            color = color.split(',');
+            size = size.split(',');
+            $('#product-detail').children().remove();
+            for (var i = 0; i < color.length; i++) {
+                for (var j = 0; j < size.length; j++) {
+                    var item = '<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin:0px;"><div class="col-md-1 col-sm-1 col-xs-1" style="line-height: 44px; padding: 0px; margin: 0px;"><input type="checkbox" checked="" id="' + color[i] + '-' + size[j] + '" name="cbx_detail[' + color[i] + '-' + size[j] + ']" /></div><div class="col-md-3 col-sm-3 col-xs-3" style="line-height: 34px; padding: 0px; margin: 0px;"><span class="label label-success">' + (color[i] + ' ' + size[j]).trim() + '</span></div><div class="col-md-4 col-sm-4 col-xs-4" style="padding: 0px; margin:0px;"><input type="number" class="form-control" placeholder="Giá sản phẩm" value="' + price + '" name="price_detail[' + color[i] + '-' + size[j] + ']" required=""/></div><div class="col-md-4 col-sm-4 col-xs-4" style="padding: 0px; margin:0px;"><input type="number" class="form-control" placeholder="Số lượng" name="qty_detail[' + color[i] + '-' + size[j] + ']" required="" /></div></div>';
+                    if (size[i] != '' || color[j] != '') {
+                        $(item).appendTo($('#product-detail'));
+                        $("#" + color[i] + '-' + size[j]).on('change', function () {
+                            if (!$(this).prop('checked')) {
+                                $(this).parent().parent().children(':eq(2)').children().attr('disabled', '');
+                                $(this).parent().parent().children(':eq(3)').children().attr('disabled', '');
+                            } else {
+                                $(this).parent().parent().children(':eq(2)').children().removeAttr('disabled');
+                                $(this).parent().parent().children(':eq(3)').children().removeAttr('disabled');
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    });
+</script>
+<!-- /jQuery Tags Input -->
+
+<!-- DropzoneJs Config -->
+<script>
+    Dropzone.options.dropzoneForm = {
+        paramName: "file",
+        maxFilesize: 2,
+        maxFiles: 8,
+        url: "/Product/UploadFile",
+        acceptedFiles: "image/*",
+        init: function () {
+            this.on("maxfilesexceeded", function (file) {
+                this.removeFile(file);
+                $.alert({
+                    title: 'Rất tiếc!',
+                    content: 'Giới hạn số lượng hình ảnh là 8!'
+                });
+            });
+            this.on("success", function (file) {
+                $('.dz-image').css({ "border-radius": "0px" });
+            });
+        },
+        dictDefaultMessage: "Kéo ảnh vào đây hoặc click để upload ảnh sản phẩm",
+        addRemoveLinks: true,
+        dictRemoveFile: 'Xóa ảnh',
+        removedfile: function (file) {
+            var name = file.name;
+            $.ajax({
+                type: 'POST',
+                url: '/Product/DeleteFileImage',
+                data: "id=" + name
+            });
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        }
+    }
+</script>
+
+<!-- Input Avatar Image -->
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#avatar')
+                    .attr('src', e.target.result)
+                    .width(150);
+                $('#div_avatar')
+                    .attr('style', "border: 1px solid #ccc; padding: 10px");
+                $('#spanImg').remove();
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#div_avatar").click(function () {
+        $('#Image').trigger('click');
+    });
+</script>

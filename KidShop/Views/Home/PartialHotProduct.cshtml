@@ -1,0 +1,205 @@
+﻿@model List<KidShop.Areas.Admin.Models.DataModel.Product>
+@using KidShop.Areas.Admin.Models.DataModel
+@using System.Globalization
+
+<section class="sk-home-main-block">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 discounts-product-block discounts-product-block-left">
+            <div class="main-block-title">
+                <h2>
+                    Sản phẩm xem nhiều nhất
+                </h2>
+            </div>
+            <div id="discounts-product" class="owl-carousel owl-theme">
+                @if (Model.Count()>0)
+                {
+                    <div class="item">
+                        <div class="discounts-product-item">
+
+                            @{
+                                ProductDetail productDetail = Model[0].ProductDetails.OrderBy(r => r.Price).FirstOrDefault();
+                            }
+                            @if (Model[0].Sale > 0)
+                            {
+                                <div class="sale-box text-center">
+                                    <span class="price">
+                                        -@Model[0].Sale%
+                                    </span>
+                                </div>
+                            }
+
+                            <div class="discounts-product-image">
+                                <a href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })">
+                                    <img src="~/Areas/Admin/Content/Images/ProductImages/@Model[0].Image" alt=@Model[0].ProductName class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="discounts-product-info text-center">
+                                @if (Model[0].Sale > 0)
+                                {
+                                    <div class="price-box">
+                                        @if (Model[0].Qty <= 0)
+                                        {
+                                            <span class="price">Hết hàng</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="price">
+                                                @{
+                                                    decimal price = productDetail.Price;
+                                                    price = price - (price * Model[0].Sale / 100);
+                                                    @price.ToString("C0", CultureInfo.CurrentCulture)
+                                                }
+                                            </span>
+                                            <span class="price-compare">
+                                                @productDetail.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="price-box">
+                                        @if (Model[0].Qty <= 0)
+                                        {
+                                        <span class="price">Hết hàng</span>
+                                        }
+                                        else
+                                        {
+                                        <span class="price">
+                                            @productDetail.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                        </span>
+                                        }
+                                    </div>
+                                }
+                                <h3 class="item-title">
+                                    <a href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })" title="@Model[0].ProductName">@Model[0].ProductName</a>
+                                </h3>
+
+                                <div class="text-center">
+                                    @if (Model[0].Qty <= 0)
+                                    {
+                                        <button disabled="disabled" class="button btn-cart btn-buy product-atc" title="Cho vào giỏ hàng"><span>Hết hàng</span></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="button btn-cart btn-more product-atc" title="Mua hàng" type="button" onclick="window.location.href='@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })'"><span><img src="~/Images/btn-buy.png" alt=""></span></button>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Count() > 1)
+                {
+                    <div class="item">
+                        <div class="discounts-product-item">
+
+                            @{
+                                ProductDetail productDetail = Model[1].ProductDetails.OrderBy(r => r.Price).FirstOrDefault();
+                            }
+                            @if (Model[1].Sale > 0)
+                            {
+                                <div class="sale-box text-center">
+                                    <span class="price">
+                                        -@Model[1].Sale%
+                                    </span>
+                                </div>
+                            }
+
+                            <div class="discounts-product-image">
+                                <a href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })">
+                                    <img src="~/Areas/Admin/Content/Images/ProductImages/@Model[1].Image" alt=@Model[1].ProductName class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="discounts-product-info text-center">
+                                @if (Model[1].Sale > 0)
+                                {
+                                    <div class="price-box">
+                                        @if (Model[1].Qty <= 0)
+                                        {
+                                            <span class="price">Hết hàng</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="price">
+                                                @{
+                                                    decimal price = productDetail.Price;
+                                                    price = price - (price * Model[1].Sale / 100);
+                                                    @price.ToString("C0", CultureInfo.CurrentCulture)
+                                                }
+                                            </span>
+                                            <span class="price-compare">
+                                                @productDetail.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="price-box">
+                                        @if (Model[1].Qty <= 0)
+                                        {
+                                        <span class="price">Hết hàng</span>
+                                        }
+                                        else
+                                        {
+                                        <span class="price">
+                                            @productDetail.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                        </span>
+                                        }
+                                    </div>
+                                }
+                                <h3 class="item-title">
+                                    <a href="@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })" title="@Model[1].ProductName">@Model[1].ProductName</a>
+                                </h3>
+
+                                <div class="text-center">
+                                    @if (Model[1].Qty <= 0)
+                                    {
+                                        <button disabled="disabled" class="button btn-cart btn-buy product-atc" title="Cho vào giỏ hàng"><span>Hết hàng</span></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="button btn-cart btn-more product-atc" title="Mua hàng" type="button" onclick="window.location.href='@Url.Action("Details", "Product", new { id = productDetail.ProductDetailId })'"><span><img src="~/Images/btn-buy.png" alt=""></span></button>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 discounts-product-block-right">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6">
+                    @if (Model.Count() > 2)
+                    {
+                        @Html.Partial("~/Views/Product/PartialProduct.cshtml", Model[2])
+                    }
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    @if (Model.Count() > 3)
+                    {
+                        @Html.Partial("~/Views/Product/PartialProduct.cshtml", Model[3])
+                    }
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="sk-viewmore-block-green">
+                <div class="sk-viewmore-block-inner text-center">
+                    <a href="@Url.Action("Index", "Product")"><span>Xem toàn bộ sản phẩm <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</section>

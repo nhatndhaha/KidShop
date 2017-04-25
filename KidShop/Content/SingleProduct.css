@@ -1,0 +1,132 @@
+﻿.sk-sigle-content .product-img-box img {
+    max-width: 70%;
+}
+
+
+.pd-form-top {
+    margin-bottom: 10px;
+}
+
+    .pd-form-top .selector-wrapper {
+        float: left;
+        margin-right: 20px;
+    }
+
+        .pd-form-top .selector-wrapper .single-option-selector {
+            width: 158px;
+            height: 40px;
+            padding-left: 10px;
+        }
+
+.single-input-selector {
+    width: 220px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.product-btn-buy {
+    padding: 10px 23px;
+    border: 0;
+    background-color: #79bd9a;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sk-hotline-block {
+    margin: 30px 0;
+}
+
+    .sk-hotline-block span {
+        display: block;
+        margin-bottom: 10px;
+        font-style: italic;
+    }
+
+    .sk-hotline-block .sk-widget-title {
+        display: inline-block;
+        padding: 12px 12px 10px;
+    }
+
+        .sk-hotline-block .sk-widget-title h5 {
+            font-size: 20px;
+            font-weight: 400;
+            font-family: Roboto;
+        }
+
+            .sk-hotline-block .sk-widget-title h5 a {
+                font-weight: 700;
+                color: #fff;
+            }
+
+
+
+.sk-related-product-item {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.sk-product-slider-thumb {
+    text-align: center;
+}
+
+.sk-product-slider-list li {
+    border: 1px solid #ebebeb;
+    margin-bottom: 30px;
+}
+
+.sk-product-slider-list img {
+    height: 155px;
+}
+
+.sk-product-large img {
+    height: 530px;
+    border: 1px solid #ebebeb;
+}
+
+.sk-price-box {
+    margin: 20px 0;
+}
+
+    .sk-price-box span.price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #d081a5;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+.sk-product-info-wrap {
+    margin-bottom: 20px;
+}
+
+    .sk-product-info-wrap li span:nth-child(1) {
+        font-weight: 700;
+    }
+
+.sk-sigle-content p {
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+.sk-product-detail-content-col {
+    margin-bottom: 40px;
+}
+
+
+.product-view .product-img-box {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+    .product-view .product-img-box .product-image {
+        margin: 0 0 13px;
+    }
+
+.product-view .social_addthis {
+    margin: 25px 0px;
+}

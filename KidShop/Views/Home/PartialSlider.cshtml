@@ -1,0 +1,13 @@
+﻿@model ICollection<KidShop.Areas.Admin.Models.DataModel.Slider>
+<div class="sk-home-slider">
+    <div id="sk-home-slider" class="owl-carousel">
+        @foreach (var item in Model)
+        {
+            <div class="item">
+                <a href="@item.Url" title="Kidshop">
+                    <figure class="banner" style="background-image: url('/Areas/Admin/Content/Images/Slider/@item.Image');"></figure>
+                </a>
+            </div>
+        }
+    </div>
+</div>

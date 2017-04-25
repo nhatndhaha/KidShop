@@ -1,0 +1,135 @@
+﻿@model KidShop.Areas.Admin.Models.ViewModel.ShoppingCartViewModel
+@using System.Globalization
+
+
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".remove-item").click(function () {
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                        $('#row-' + data.DeleteId).fadeOut('slow');
+                        $('#cart-total').text(data.CartTotal);
+                        $('#cart-status').text(data.CartCount);
+                        if(data.CartCount == 0){
+                            $('#cart-list').empty();
+                            $('#cart-list').html("<p>Không có sản phẩm nào trong giỏ hàng.</p>");
+                        }
+                    });
+            }
+        });
+
+    });
+
+    function changeQuantity(productDetailId) {
+        var qty = $("#item-count-" + productDetailId).val();
+        $.post("/ShoppingCart/UpdateFromCart", { "productDetailId": productDetailId, "qty": qty },
+                function (data) {
+                    $('#item-total-' + data.DeleteId).text(data.ThanhTien);
+                    $('#cart-total').text(data.CartTotal);
+                    $('#cart-status').text(data.CartCount);
+                });
+    }
+</script>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        @if (Model.CartItems.Count > 0)
+        {
+            <h3 class="form-heading">Giỏ hàng</h3>
+
+            <div id="cart-list" style="margin-top: 50px">
+                <div class="row cart cart_table">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered cart-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Hình ảnh</th>
+                                        <th class="text-center">Tên sản phẩm</th>
+                                        <th class="text-center">Đơn giá</th>
+                                        <th class="text-center">Số lượng</th>
+                                        <th class="text-center">Thành tiền</th>
+                                        <th class="text-center">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.CartItems)
+                                    {
+                                        double price = (double)(item.ProductDetail.Price - (item.ProductDetail.Price * item.ProductDetail.Product.Sale) / 100);
+                                        <tr id="row-@item.ProductDetailId">
+                                            <td class="text-center">
+                                                <a href="@Url.Action("Details", "Product", new { id = item.ProductDetail.ProductDetailId})">
+                                                    <img style="height: 100px" alt="@item.ProductDetail.Product.ProductName - @item.ProductDetail.Size / @item.ProductDetail.Color" src="~/Areas/Admin/Content/Images/ProductImages/@item.ProductDetail.Product.Image">
+                                                </a>
+                                            </td>
+                                            <td class="text-center" valign="middle">
+                                                <p>
+                                                    <a href="@Url.Action("Details", "Product", new { id = item.ProductDetail.ProductDetailId})">@item.ProductDetail.Product.ProductName</a><br>
+                                                    @item.ProductDetail.Size / @item.ProductDetail.Color
+                                                </p>
+                                            </td>
+                                            <td class="text-center">
+                                                <p class="">@price.ToString("C0", CultureInfo.CurrentCulture)</p>
+                                            </td>
+                                            <td class="text-center">
+                                                    <select class="cart-product-item-cell-qty-select" name="qty_" id="item-count-@item.ProductDetailId" title="Số lượng" onchange="changeQuantity(@item.ProductDetailId)">
+                                                        @for (int i = 1; i <= item.ProductDetail.Qty; i++)
+                                                        {
+                                                            if (i == item.Count)
+                                                            {
+                                                                <option value="@i" selected>@i</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@i">@i</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <p id="item-total-@item.ProductDetailId">@((price * item.Count).ToString("C0", CultureInfo.CurrentCulture))</p>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="" class="remove-item fa fa-trash-o item-remove" data-id="@item.ProductDetailId"></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-xs-12">
+                        <a href="@Url.Action("Index", "Product")" class="btn-cart next">Mua hàng tiếp</a>
+                        <a href="@Url.Action("AddressAndPayment", "Checkout")" class="btn-cart">Thanh toán</a>
+                    </div>
+
+                    <div class="col-md-3 col-xs-12">
+                        <table class="table table-bordered total-table">
+                            <tr>
+                                <td class="text-right">Tổng tiền</td>
+                                <td id="cart-total" class="text-right">@Model.CartTotal.ToString("C0", CultureInfo.CurrentCulture)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        }
+        else
+        {
+            <div>
+                <p>
+                    Không có sản phẩm nào trong giỏ hàng.
+                </p>
+            </div>
+        }
+    </div>
+</div>
+<!-- End Main Content -->

@@ -1,0 +1,48 @@
+﻿@model KidShop.Models.LoginView
+@{
+    ViewBag.Title = "Đăng nhập";
+}
+
+
+<!-- Main Content -->
+<div class="main-content" style="margin-top: 40px;">
+    <div class="container">
+        <div class="row">
+            <div class="form-style form-login">
+                @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <h3 class="form-heading">Đăng nhập</h3>
+                    <p class="form-description">Nếu bạn chưa có tài khoản, xin vui lòng <a href="@Url.Action("Register", "Account" , new { returnUrl = ViewBag.returnUrl })"><strong>ĐĂNG KÝ</strong></a>.</p>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            <p class="text-danger">@ViewBag.errorEmail</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            <p class="text-danger">@ViewBag.errorPassword</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-10">
+                            <button class="btn-cart">Đăng nhập</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Main Content -->

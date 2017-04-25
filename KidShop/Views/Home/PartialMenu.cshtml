@@ -1,0 +1,13 @@
+﻿@model IEnumerable<KidShop.Areas.Admin.Models.DataModel.Category>
+
+<li class="dropdown">
+    <a href="@Url.Action("Index", "Product")" class="dropdown-toggle" data-toggle="dropdown">Sản phẩm <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li>@Html.ActionLink("Tất cả sản phẩm", "Index", "Product")</li>
+        @foreach (var item in Model)
+        {
+            <li>@Html.ActionLink(item.CategoryName, "Index", "Product", new { id = item.CategoryId }, null)</li>
+        }
+        <li>@Html.ActionLink("Khuyến mại", "Index", "Product", new { id = 0 }, null)</li>
+    </ul>
+</li>

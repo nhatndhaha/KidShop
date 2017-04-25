@@ -1,0 +1,249 @@
+﻿@model KidShop.Areas.Admin.Models.DataModel.ProductDetail
+@using System.Configuration
+@using KidShop.Areas.Admin.Models.DataModel
+@using System.Globalization;
+@{
+    ViewBag.Title = Model.Product.ProductName;
+}
+
+<!--ScripFB-->
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<!--EndScripFB-->
+<!--ScripAjax-->
+<script type="text/javascript">
+    //click add cart
+    $(function () {
+        $(".product-btn-buy").click(function () {
+            var qty = $('.single-input-selector').val();
+            var id = $("#product-detail-id").html();
+            if (id != '') {
+                $.post("/ShoppingCart/AddToCart", { "id": id, "qty":qty },
+                    function (data) {
+                        $('#cart-status').text(data.CartCount);
+                        $('#message').text(data.Message)
+                    });
+            }
+        });
+    });
+
+    //change color
+    $(function () {
+        $("#product-color-selector").change(function(){
+            var color = $("#product-color-selector").val();
+            var id = parseInt($("#product-id").html());
+            if (color != '') {
+                $.post("/Product/ChangeColor", {"id" : id, "color": color },
+                    function (data) {
+                        if (data != null) {
+                            var option = "";
+                            $.each(data.listSize, function (key, value) {
+                                option += "<option value='" + value + "'>" + value + "</option>";
+                            });
+                            $('#product-size-selector').html(option);
+                            $('.old-price').html(data.OldPrice);
+                            $('.price').html(data.SalePrime);
+                            $('#qty').html(data.StatusQty);
+                            $('#product-detail-id').html(data.productDetailId);
+                        }
+                    });
+            }
+        });
+    });
+
+    //change size
+    $(function () {
+        $("#product-size-selector").change(function(){
+            var color = $("#product-color-selector").val();
+            var size = $("#product-size-selector").val();
+            var id = parseInt($("#product-id").html());
+            if (color != '') {
+                $.post("/Product/ChangeSize", { "id": id, "color": color, "size" : size },
+                    function (data) {
+                        if (data != null) {
+                            $('.old-price').html(data.OldPrice);
+                            $('.price').text(data.SalePrime);
+                            $('#qty').html(data.StatusQty);
+                            $('#product-detail-id').html(data.productDetailId);
+                        }
+                    });
+            }
+        });
+    });
+</script>
+<!--EndScripAjax-->
+<!--MessegeBoxAddToCart-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Thông báo.</h4>
+            </div>
+            <div class="modal-body">
+                <p id="message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tiếp tục mua sắm</button>
+                <button type="submit" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ShoppingCart")'">Đến giỏ hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--EndMessegeBoxAddToCart-->
+<!-- Main Content -->
+<div class="category-page-layout">
+    <div class="container">
+        <div class="row">
+            <article class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sk-product-detail-content-col">
+                @Html.Action("PartialProductUrl", "Product", new { id = Model.ProductId, product = 1 })
+                <div class="row sk-sigle-content product-view">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        @Html.Action("PartialProductImage", "Product", new { id = Model.ProductId })
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="sk-page-detail-title">
+                            <h1 itemprop="name" class="pd-name">@Model.Product.ProductName</h1>
+                        </div>
+                        <div class="share">
+                            <div class="fb-like" data-href="@Request.Url" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                        </div>
+                        <div class="sk-price-box clearfix">
+                            <div class="pull-left">
+                                @if (Model.Product.Sale > 0)
+                                {
+                                    <div class="sale">
+                                        <span>Giá gốc:</span>
+                                        <del class="old-price">
+                                            @Model.Price.ToString("C0", CultureInfo.CurrentCulture)
+                                        </del>
+                                    </div>
+                                }
+                                <span>Giá:</span>
+                                <span class="price">
+                                    @{
+                                        decimal price = Model.Price;
+                                        price = price - (price * Model.Product.Sale / 100);
+                                        @price.ToString("C0", CultureInfo.CurrentCulture)
+                                    }
+                                </span>
+                            </div>
+                            <div class="stock pull-left">
+                                <div class="availability in-stock pull-right"><span id="qty">@{string status = (Model.Qty > 0) ? "Còn hàng" : "Hết hàng";} @status </span></div>
+                            </div>
+                        </div>
+                        <ul class="sk-product-info-wrap">
+                            <li>
+                                <span>Mã sản phẩm:</span>
+                                <span id="product-detail-id">@Model.ProductDetailId</span>
+                                <span id="product-id" style="display: none;">@Model.ProductId</span>
+                            </li>
+                        </ul>
+                        <p class="pd-description-mini">
+
+                        </p>
+                        <div class="pd-form">
+                            <div class="pd-form-top clearfix">
+                                <div class="selector-wrapper clearfix">
+                                    <label for="product-select-option-1">Màu sắc</label>
+                                    <select class="single-option-selector" id="product-color-selector">
+                                        @foreach (var item in ViewBag.ListColor)
+                                        {
+                                            if (item == Model.Color)
+                                            {
+                                                <option value="@item" selected>@item</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item">@item</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="selector-wrapper clearfix">
+                                    <label for="product-select-option-0">Kích thước</label>
+                                    <select class="single-option-selector" id="product-size-selector">
+                                        @foreach (var item in ViewBag.ListSize)
+                                        {
+                                            if (item == Model.Size)
+                                            {
+                                                <option value="@item" selected>@item</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item">@item</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pd-form-bottom clearfix">
+                                <input type="number" value="1" class="single-input-selector" name="quantity" placeholder="Số lượng">
+                                <button class="button product-btn-buy" title="Đặt hàng" type="button" data-toggle="modal" data-target="#myModal"><span>Đặt hàng</span></button>
+                            </div>
+                            <div class="sk-hotline-block">
+                                <span>Gọi ngay để được tư vấn mua hàng !</span>
+                                <div class="sk-widget-title pink-bg-widget">
+                                    <h5>Hotline: <a href="tel:@ConfigurationManager.AppSettings["hotline"]">@ConfigurationManager.AppSettings["hotline"]</a></h5>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="col-lg-8 col-md-8 col-sm-12 col-xs-12 sk-product-detail-content-col">
+                <div class="sk-related-product-list">
+                    <div class="product-care-title">
+                        <h2>
+                            Thông tin sản phẩm
+                        </h2>
+                    </div>
+                    <div class="sk-related-product-listing">
+                        <div class="tab-pane" id="pd-thong-tin">
+                            @Html.Raw(Model.Product.Description)
+                        </div>
+                    </div>
+                </div>
+                <div class="sk-pt-wrap">
+                    <div class="fb-comments" data-href="@Request.Url" data-width="100%" data-numposts="10"></div>
+                </div>
+                <div class="sk-related-product-list">
+                    <div class="product-care-title">
+                        <h2>
+                            Sản phẩm liên quan
+                        </h2>
+                    </div>
+                    <div class="sk-related-product-listing">
+
+                        @foreach (Product item in ViewBag.ListProduct)
+                        {
+                            <div class="sk-related-product-item col-md-3 col-sm-6 col-xs-12">
+                                @Html.Partial("~/Views/Product/PartialProduct.cshtml", item)
+                            </div>
+                        }
+                    </div>
+                </div>
+            </article>
+            <aside class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+                @Html.Action("PartialCategory", "Product", new { id = 0 })
+                <div class="sk-leftSidebar-widget social-widget">
+                    <div class="sk-widget-title green-bg-widget">
+                        <h5>Facebook</h5>
+                    </div>
+                    <div class="social-wrap block-content">
+                        <div class="fb-page" data-href="@ConfigurationManager.AppSettings["urlfacebook"]" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/facebook" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/facebook">Facebook</a></blockquote></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Main Content -->

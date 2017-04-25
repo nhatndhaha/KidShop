@@ -1,0 +1,103 @@
+﻿@model IEnumerable<KidShop.Areas.Admin.Models.DataModel.Account>
+
+<p>
+    @Html.ActionLink("Thêm tài khoản", "Create", "AccountManager", new { }, new { @class = "btn btn-primary btn-sm" })
+</p>
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Danh sách tài khoản</h2>
+        <ul class="nav navbar-right panel_toolbox">
+            <li>
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li>
+                <a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="x_content">
+
+        <div class="table-responsive">
+            <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                    <tr class="headings">
+                        <th>
+                            <input type="checkbox" id="check-all" class="flat">
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Avatar)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Role)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Allowed)
+                        </th>
+                        <th class="column-title no-link last">
+                            <span class="nobr">Hành động</span>
+                        </th>
+                        <th class="bulk-actions" colspan="7">
+                            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="odd pointer" id="account_@item.UserId">
+                            <td class="a-center ">
+                                <input type="checkbox" class="flat" name="table_records">
+                            </td>
+                            <td class=" ">@item.FirstName</td>
+                            <td class=" ">@item.LastName</td>
+                            <td class=" ">@item.Email</td>
+                            <td class=" "><img src="~/Areas/Admin/Content/Images/@item.Avatar" id="Image" class="img-rounded" style="margin-left:20px; width: 25px;" /></td>
+                            
+                            <td class=" ">@Html.CheckBox("cbx", item.Allowed, new { @class = "flat", disabled = "" })</td>
+                            <td class=" last">
+                                <a class="btn btn-primary btn-xs" href="/Admin/AccountManager/Edit/@item.UserId"><i class="fa fa-edit"></i> Sửa</a>
+                                <a class="btn btn-danger btn-xs" onclick="DeleteConfirm(@item.UserId)"><i class="fa fa-trash"></i> Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteConfirm(id) {
+        $.confirm({
+            title: 'Xác nhận xóa!',
+            content: 'Bạn có chắc chắn muốn xóa?',
+            buttons: {
+                OK: {
+                    text: 'Xóa',
+                    btnClass: 'btn-red',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        $.ajax({ url: "/AccountManager/Delete/" + id, method: "POST", success: $("#account_" + id).remove() });
+                    }
+                },
+                cancel: {
+                    text: 'Hủy',
+                    keys: ['esc']
+                }
+            }
+        });
+    }
+</script>
